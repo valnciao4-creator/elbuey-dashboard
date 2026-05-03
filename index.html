@@ -27,8 +27,7 @@ body { background: #f5f5f5; padding: 1rem; }
 .mesero-row { padding: 10px 0; border-bottom: 0.5px solid #eee; cursor: pointer; }
 .mesero-row:last-child { border-bottom: none; }
 .mesero-top { display: flex; align-items: center; gap: 8px; margin-bottom: 5px; }
-.avatar { width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 500; color: #fff; flex-shrink: 0; }
-.av1{background:#cc1f1f;} .av2{background:#2a2a2a;} .av3{background:#555;} .av4{background:#888;}
+.avatar { width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 500; color: #fff; flex-shrink: 0; background: #cc1f1f; }
 .mesero-name { font-size: 13px; font-weight: 500; color: #1a1a1a; flex: 1; }
 .score-big { font-size: 15px; font-weight: 500; color: #1a1a1a; }
 .badge { display: inline-block; font-size: 10px; padding: 2px 7px; border-radius: 20px; font-weight: 500; margin-left: 4px; }
@@ -53,12 +52,10 @@ body { background: #f5f5f5; padding: 1rem; }
 .comment-mesero { font-size: 11px; color: #888; }
 .comment-text { font-size: 13px; color: #333; line-height: 1.5; }
 .stars-sm { display: flex; gap: 2px; font-size: 12px; }
-.star-lit { color: #cc1f1f; }
-.star-empty { color: #ddd; }
+.loading { text-align: center; padding: 2rem; color: #888; font-size: 14px; }
 .password-screen { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; }
 .password-card { background: #fff; border-radius: 12px; padding: 2rem; border: 0.5px solid #e0e0e0; width: 100%; max-width: 320px; text-align: center; }
-.pw-logo { background: #1a1a1a; border-radius: 10px; padding: 1rem; margin: 0 auto 1.5rem; display: inline-block; }
-.pw-title { font-size: 16px; font-weight: 500; color: #1a1a1a; margin-bottom: 6px; }
+.pw-title { font-size: 16px; font-weight: 500; color: #1a1a1a; margin-bottom: 6px; margin-top: 1rem; }
 .pw-sub { font-size: 13px; color: #888; margin-bottom: 1.5rem; }
 .pw-input { width: 100%; padding: 10px 12px; border: 0.5px solid #ccc; border-radius: 8px; font-size: 14px; margin-bottom: 10px; outline: none; }
 .pw-btn { width: 100%; padding: 11px; background: #cc1f1f; border: none; border-radius: 8px; color: #fff; font-size: 14px; font-weight: 500; cursor: pointer; }
@@ -70,7 +67,7 @@ body { background: #f5f5f5; padding: 1rem; }
 
 <div class="password-screen" id="pw-screen">
   <div class="password-card">
-    <div class="pw-logo">
+    <div style="background:#1a1a1a;border-radius:10px;padding:0.75rem 1rem;display:inline-block;">
       <div style="background:#cc1f1f;border-radius:6px;padding:4px 12px;font-size:14px;font-weight:500;color:#fff;">EL BUEY</div>
     </div>
     <div class="pw-title">Dashboard de Servicio</div>
@@ -89,150 +86,136 @@ body { background: #f5f5f5; padding: 1rem; }
       <div class="header-sub" id="dash-sub">Cargando...</div>
     </div>
   </div>
-
   <div class="metric-grid">
-    <div class="metric">
-      <div class="metric-label">Promedio general</div>
-      <div class="metric-val" id="m-promedio">—</div>
-      <div class="metric-sub">de 5 estrellas</div>
-    </div>
-    <div class="metric">
-      <div class="metric-label">Total evaluaciones</div>
-      <div class="metric-val" id="m-total">—</div>
-      <div class="metric-sub">este mes</div>
-    </div>
-    <div class="metric">
-      <div class="metric-label">Mejor mesero</div>
-      <div class="metric-val green" id="m-mejor">—</div>
-      <div class="metric-sub" id="m-mejor-sub">—</div>
-    </div>
-    <div class="metric">
-      <div class="metric-label">Necesita atención</div>
-      <div class="metric-val red" id="m-peor">—</div>
-      <div class="metric-sub" id="m-peor-sub">—</div>
-    </div>
+    <div class="metric"><div class="metric-label">Promedio general</div><div class="metric-val" id="m-promedio">—</div><div class="metric-sub">de 5 estrellas</div></div>
+    <div class="metric"><div class="metric-label">Total evaluaciones</div><div class="metric-val" id="m-total">—</div><div class="metric-sub">este mes</div></div>
+    <div class="metric"><div class="metric-label">Mejor mesero</div><div class="metric-val green" id="m-mejor">—</div><div class="metric-sub" id="m-mejor-sub">—</div></div>
+    <div class="metric"><div class="metric-label">Necesita atención</div><div class="metric-val red" id="m-peor">—</div><div class="metric-sub" id="m-peor-sub">—</div></div>
   </div>
-
   <div class="tab-row">
     <button class="tab active" onclick="setTab('ranking',this)">Ranking</button>
     <button class="tab" onclick="setTab('comentarios',this)">Comentarios</button>
   </div>
-
-  <div id="view-ranking">
-    <div class="card">
-      <div class="section-label">Toca un mesero para ver su detalle</div>
-      <div id="ranking-list"></div>
-    </div>
-  </div>
-
-  <div id="view-comentarios" style="display:none">
-    <div class="card">
-      <div class="section-label">Comentarios recientes</div>
-      <div id="comentarios-list"></div>
-    </div>
-  </div>
+  <div id="view-ranking"><div class="card"><div class="section-label">Toca un mesero para ver su detalle</div><div id="ranking-list"><div class="loading">Cargando datos...</div></div></div></div>
+  <div id="view-comentarios" style="display:none"><div class="card"><div class="section-label">Comentarios recientes</div><div id="comentarios-list"><div class="loading">Cargando...</div></div></div></div>
 </div>
 
 <script>
 const PASSWORD = 'elbuey2026';
-
-const DATOS = {
-  meseros: [
-    { nombre: 'Carlos Ramírez', av: 'CR', avClass: 'av1', rapidez: 4.2, amabilidad: 4.5, conocimiento: 4.0, presentacion: 4.3, actitud: 4.1, resolucion: 3.9, evaluaciones: 12, mejor: 'Amabilidad y trato', peor: 'Resolución de problemas' },
-    { nombre: 'Ana Martínez',   av: 'AM', avClass: 'av2', rapidez: 3.5, amabilidad: 3.8, conocimiento: 3.2, presentacion: 3.7, actitud: 3.4, resolucion: 3.6, evaluaciones: 8,  mejor: 'Amabilidad y trato', peor: 'Conocimiento del menú' },
-    { nombre: 'Luis García',    av: 'LG', avClass: 'av3', rapidez: 3.0, amabilidad: 3.1, conocimiento: 3.5, presentacion: 2.9, actitud: 2.8, resolucion: 3.0, evaluaciones: 9,  mejor: 'Conocimiento del menú', peor: 'Actitud proactiva' },
-    { nombre: 'Sofía Pérez',    av: 'SP', avClass: 'av4', rapidez: 4.8, amabilidad: 4.9, conocimiento: 4.7, presentacion: 4.6, actitud: 4.8, resolucion: 4.7, evaluaciones: 18, mejor: 'Amabilidad y trato', peor: 'Presentación personal' },
-  ],
-  comentarios: [
-    { nombre: 'María González', mesero: 'Sofía Pérez', mesa: '7', estrellas: 5, texto: 'Sofía estuvo excelente, muy atenta y rápida.' },
-    { nombre: 'Anónimo',        mesero: 'Luis García',  mesa: '5', estrellas: 3, texto: 'Tardó mucho en tomar la orden.' },
-    { nombre: 'Roberto Sánchez',mesero: 'Carlos Ramírez',mesa:'2', estrellas: 4, texto: 'Muy amable, nos recomendó bien los cortes.' },
-    { nombre: 'Anónimo',        mesero: 'Ana Martínez', mesa: '3', estrellas: 4, texto: 'Buena atención pero no sabía los ingredientes del menú del día.' },
-  ]
-};
+const SHEET_ID = '1n5y21LfboFV9YMrG_T7eowdQuFlaBweTLjo1gnpP4j0';
+const SHEET_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=Hoja1`;
 
 function checkPw() {
-  const val = document.getElementById('pw-input').value;
-  if (val === PASSWORD) {
+  if (document.getElementById('pw-input').value === PASSWORD) {
     document.getElementById('pw-screen').style.display = 'none';
     document.getElementById('main').style.display = 'block';
-    renderDashboard();
+    cargarDatos();
   } else {
     document.getElementById('pw-error').style.display = 'block';
   }
 }
 
-function promedio(m) {
-  return (m.rapidez + m.amabilidad + m.conocimiento + m.presentacion + m.actitud + m.resolucion) / 6;
+async function cargarDatos() {
+  try {
+    const res = await fetch(SHEET_URL);
+    const text = await res.text();
+    const json = JSON.parse(text.substring(47).slice(0,-2));
+    const rows = json.table.rows;
+    procesarDatos(rows);
+  } catch(e) {
+    document.getElementById('ranking-list').innerHTML = '<div class="loading">Error cargando datos. Verifica que el Sheet sea público.</div>';
+  }
 }
 
-function badge(p) {
-  if (p >= 4.2) return '<span class="badge bg">Excelente</span>';
-  if (p >= 3.5) return '<span class="badge ba">Regular</span>';
-  return '<span class="badge br">Mejorar</span>';
-}
+function procesarDatos(rows) {
+  const meseros = {};
+  const comentarios = [];
 
-function barColor(p) {
-  if (p >= 4.2) return '#639922';
-  if (p >= 3.5) return '#EF9F27';
-  return '#cc1f1f';
-}
+  rows.forEach(row => {
+    const c = row.c;
+    if (!c || !c[3] || !c[3].v) return;
+    const mesero = c[3].v;
+    const rapidez = c[4] ? (c[4].v || 0) : 0;
+    const amabilidad = c[5] ? (c[5].v || 0) : 0;
+    const conocimiento = c[6] ? (c[6].v || 0) : 0;
+    const presentacion = c[7] ? (c[7].v || 0) : 0;
+    const actitud = c[8] ? (c[8].v || 0) : 0;
+    const resolucion = c[9] ? (c[9].v || 0) : 0;
+    const anonimo = c[10] ? (c[10].v || '') : '';
+    const nombre = c[11] ? (c[11].v || 'Anónimo') : 'Anónimo';
+    const comentario = c[12] ? (c[12].v || '') : '';
 
-function starsHtml(n) {
-  let s = '';
-  for (let i = 1; i <= 5; i++) s += `<span class="${i<=n?'star-lit':'star-empty'}">★</span>`;
-  return s;
-}
+    if (!meseros[mesero]) meseros[mesero] = { nombre: mesero, evaluaciones: 0, rapidez: [], amabilidad: [], conocimiento: [], presentacion: [], actitud: [], resolucion: [] };
+    meseros[mesero].evaluaciones++;
+    meseros[mesero].rapidez.push(rapidez);
+    meseros[mesero].amabilidad.push(amabilidad);
+    meseros[mesero].conocimiento.push(conocimiento);
+    meseros[mesero].presentacion.push(presentacion);
+    meseros[mesero].actitud.push(actitud);
+    meseros[mesero].resolucion.push(resolucion);
 
-function renderDashboard() {
-  const sorted = [...DATOS.meseros].sort((a,b) => promedio(b) - promedio(a));
-  const total = DATOS.meseros.reduce((s,m) => s + m.evaluaciones, 0);
-  const mejor = sorted[0];
-  const peor = sorted[sorted.length-1];
-  const prom = DATOS.meseros.reduce((s,m) => s + promedio(m), 0) / DATOS.meseros.length;
+    if (comentario) comentarios.push({ nombre: anonimo === 'Anónimo' ? 'Anónimo' : nombre, mesero, comentario });
+  });
 
-  document.getElementById('dash-sub').textContent = `Mayo 2026 · ${total} evaluaciones`;
-  document.getElementById('m-promedio').textContent = prom.toFixed(1) + ' ★';
+  const avg = arr => arr.length ? arr.reduce((a,b)=>a+b,0)/arr.length : 0;
+  const data = Object.values(meseros).map(m => ({
+    nombre: m.nombre,
+    evaluaciones: m.evaluaciones,
+    rapidez: avg(m.rapidez),
+    amabilidad: avg(m.amabilidad),
+    conocimiento: avg(m.conocimiento),
+    presentacion: avg(m.presentacion),
+    actitud: avg(m.actitud),
+    resolucion: avg(m.resolucion),
+    promedio: avg([avg(m.rapidez),avg(m.amabilidad),avg(m.conocimiento),avg(m.presentacion),avg(m.actitud),avg(m.resolucion)])
+  })).sort((a,b) => b.promedio - a.promedio);
+
+  const total = data.reduce((s,m)=>s+m.evaluaciones,0);
+  const promGeneral = data.length ? avg(data.map(m=>m.promedio)) : 0;
+  const mejor = data[0];
+  const peor = data[data.length-1];
+
+  document.getElementById('dash-sub').textContent = `${total} evaluaciones · En vivo`;
+  document.getElementById('m-promedio').textContent = promGeneral.toFixed(1) + ' ★';
   document.getElementById('m-total').textContent = total;
-  document.getElementById('m-mejor').textContent = mejor.nombre.split(' ')[0] + ' ' + mejor.nombre.split(' ')[1][0] + '.';
-  document.getElementById('m-mejor-sub').textContent = promedio(mejor).toFixed(1) + ' · ' + mejor.evaluaciones + ' evaluaciones';
-  document.getElementById('m-peor').textContent = peor.nombre.split(' ')[0] + ' ' + peor.nombre.split(' ')[1][0] + '.';
-  document.getElementById('m-peor-sub').textContent = promedio(peor).toFixed(1) + ' · ' + peor.evaluaciones + ' evaluaciones';
+  if (mejor) { document.getElementById('m-mejor').textContent = mejor.nombre.split(' ')[0]; document.getElementById('m-mejor-sub').textContent = mejor.promedio.toFixed(1) + ' · ' + mejor.evaluaciones + ' eval'; }
+  if (peor && peor !== mejor) { document.getElementById('m-peor').textContent = peor.nombre.split(' ')[0]; document.getElementById('m-peor-sub').textContent = peor.promedio.toFixed(1) + ' · ' + peor.evaluaciones + ' eval'; }
+
+  const aspectos = ['rapidez','amabilidad','conocimiento','presentacion','actitud','resolucion'];
+  const nombresAspectos = ['Rapidez','Amabilidad','Conocimiento','Presentación','Actitud','Resolución'];
 
   let rankHtml = '';
-  sorted.forEach((m, i) => {
-    const p = promedio(m);
-    const pct = (p / 5 * 100).toFixed(0);
+  data.forEach((m, i) => {
+    const pct = (m.promedio/5*100).toFixed(0);
+    const color = m.promedio>=4.2?'#639922':m.promedio>=3.5?'#EF9F27':'#cc1f1f';
+    const badge = m.promedio>=4.2?'<span class="badge bg">Excelente</span>':m.promedio>=3.5?'<span class="badge ba">Regular</span>':'<span class="badge br">Mejorar</span>';
+    const vals = aspectos.map(a => m[a]);
+    const maxI = vals.indexOf(Math.max(...vals));
+    const minI = vals.indexOf(Math.min(...vals));
+    const initials = m.nombre.split(' ').map(w=>w[0]).slice(0,2).join('');
     rankHtml += `
     <div class="mesero-row" onclick="toggleDetail(this)">
       <div class="mesero-top">
         <div style="font-size:11px;color:#888;width:12px;">${i+1}</div>
-        <div class="avatar ${m.avClass}">${m.av}</div>
-        <div class="mesero-name">${m.nombre} ${badge(p)}</div>
-        <div class="score-big">${p.toFixed(1)} ★</div>
+        <div class="avatar">${initials}</div>
+        <div class="mesero-name">${m.nombre} ${badge}</div>
+        <div class="score-big">${m.promedio.toFixed(1)} ★</div>
       </div>
-      <div class="eval-count"><span>${m.evaluaciones}</span> evaluaciones este mes</div>
-      <div class="bar-wrap"><div class="bar-fill" style="width:${pct}%;background:${barColor(p)}"></div></div>
+      <div class="eval-count"><span>${m.evaluaciones}</span> evaluaciones</div>
+      <div class="bar-wrap"><div class="bar-fill" style="width:${pct}%;background:${color}"></div></div>
       <div class="hl-row detail-hl">
-        <div class="hl-box hl-green"><div class="hl-label">MEJOR ASPECTO</div><div class="hl-val">${m.mejor}</div></div>
-        <div class="hl-box hl-red"><div class="hl-label">A MEJORAR</div><div class="hl-val">${m.peor}</div></div>
+        <div class="hl-box hl-green"><div class="hl-label">MEJOR ASPECTO</div><div class="hl-val">${nombresAspectos[maxI]}</div></div>
+        <div class="hl-box hl-red"><div class="hl-label">A MEJORAR</div><div class="hl-val">${nombresAspectos[minI]}</div></div>
       </div>
     </div>`;
   });
-  document.getElementById('ranking-list').innerHTML = rankHtml;
+  document.getElementById('ranking-list').innerHTML = rankHtml || '<div class="loading">Sin evaluaciones aún</div>';
 
   let comHtml = '';
-  DATOS.comentarios.forEach(c => {
-    comHtml += `
-    <div class="comment-row">
-      <div class="comment-meta">
-        <div><div class="comment-name">${c.nombre}</div><div class="comment-mesero">${c.mesero} · Mesa ${c.mesa}</div></div>
-        <div class="stars-sm">${starsHtml(c.estrellas)}</div>
-      </div>
-      <div class="comment-text">${c.texto}</div>
-    </div>`;
+  comentarios.slice(-10).reverse().forEach(c => {
+    comHtml += `<div class="comment-row"><div class="comment-meta"><div><div class="comment-name">${c.nombre}</div><div class="comment-mesero">${c.mesero}</div></div></div><div class="comment-text">${c.comentario}</div></div>`;
   });
-  document.getElementById('comentarios-list').innerHTML = comHtml;
+  document.getElementById('comentarios-list').innerHTML = comHtml || '<div class="loading">Sin comentarios aún</div>';
 }
 
 function toggleDetail(row) {
